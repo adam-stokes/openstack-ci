@@ -1,11 +1,12 @@
 /* global it describe before */
 "use strict";
-require("babel/polyfill");
 import { expect } from "chai";
 import shell from "shelljs";
 import _ from "lodash";
+import OpenstackCI from "../";
 
 describe("Single Installer Test Runner", () =>{
+    let ci = new OpenstackCI();
     let res;
     let jsonOut;
     let knownServices = ["rabbitmq-server", "glance", "glance-simplestreams-sync", "openstack-dashboard",
@@ -15,8 +16,10 @@ describe("Single Installer Test Runner", () =>{
         res = shell.exec("sudo lxc-attach -n openstack-single-stokachu -- su - ubuntu -c 'JUJU_HOME=~/.cloud-install/juju juju status --format=json'", {silent: true});
         if(res.code === 0){
             jsonOut = JSON.parse(res.output);
-            console.log(jsonOut);
+            // console.log(jsonOut);
         }
+        ci.parseCreds();
+        console.log(ci.auth());
     });
     it("should pass on juju status", () => {
         expect(res.code).to.equal(0);

@@ -29,11 +29,13 @@
   ],
   "dependencies": {
     "bluebird": "^2.9.34",
+    "expand-tilde": "^1.2.0",
     "got": "^4.1.1",
     "lodash": "^3.10.1",
     "mz": "^2.0.0",
     "shelljs": "^0.5.2",
-    "toml": "^2.3.0"
+    "toml": "^2.3.0",
+    "xregexp": "^2.0.0"
   },
   "devDependencies": {
     "babel": "^5.8.21",
