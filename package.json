@@ -1,0 +1,45 @@
+{
+  "name": "openstack-ci",
+  "version": "0.0.1",
+  "description": "quick integrations tests",
+  "private": true,
+  "license": "MIT",
+  "repository": "battlemidget/openstack-ci",
+  "author": {
+    "name": "Adam Stokes",
+    "email": "adam.stokes@ubuntu.com",
+    "url": "astokes.org"
+  },
+  "engines": {
+    "iojs": ">=2.0.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "babel-watch": "./node_modules/.bin/babel src --watch --out-dir dist",
+    "babel": "./node_modules/.bin/babel src --out-dir dist",
+    "single-test": "./node_modules/.bin/mocha dist/tests/single.js",
+    "lds-test": "./node_modules/.bin/mocha dist/tests/lds.js",
+    "multi-test": "./node_modules/.bin/mocha dist/tests/multi.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    ""
+  ],
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "got": "^4.1.1",
+    "lodash": "^3.10.1",
+    "mz": "^2.0.0",
+    "shelljs": "^0.5.2",
+    "toml": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
+    "mocha": "*",
+    "should": "^7.0.3"
+  }
+}
