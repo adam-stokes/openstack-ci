@@ -1,22 +1,25 @@
 # openstack-ci
 
-> simple runner scripts
+> Integration testers for Ubuntu OpenStack Installer
 
 
 ## Install
 
 ```
-$ git clone battlemidget/openstack-ci
+$ sudo apt-add-repository ppa:cloud-installer/experimental
+$ sudo apt-get update
+$ sudo apt-get install openstack
+$ git clone https://github.com/battlemidget/openstack-ci.git
+$ cd openstack-ci
 ```
 
 
 ## Usage
 
 ```bash
-$ npm run babel
-$ npm run single-test
-$ npm run multi-test
-$ npm run lds-test
+$ npm run single           # Single Deployment
+$ npm run multi            # Multi Deployment
+$ npm run lds              # Landscape Autopilot Deployment
 ```
 
 ## License
