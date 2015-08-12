@@ -4,38 +4,71 @@ require("babel/polyfill");
 import fs from "fs";
 import { XRegExp } from "xregexp";
 import expandTilde from "expand-tilde";
-// import shell from "shelljs";
+import shell from "shelljs";
+import _ from "lodash";
+import Promise from "bluebird";
 
 export default class OpenstackCI {
     constructor() {
         this.config = {};
         this.rcFile = expandTilde("~/.cloud-install/openstack-admin-rc");
-        this.rcFileRaw = fs.readFileSync(this.rcFile, "utf-8");
-        this._authMap = {};
+        this._rcFileRaw = fs.readFileSync(this.rcFile, "utf-8");
+        this.token;
+        this.auth;
+        this.catalog;
     }
 
-    get auth(){
-        return this._authMap;
+    set rcFileRaw(contents){
+        this._rcFileRaw = contents;
     }
 
     parseCreds(){
-        let authCreds = XRegExp("OS_USERNAME=(?<username>[A-Za-z0-9:\\/\\/\\.]+)" +
-                                "OS_PASSWORD=(?<password>[A-Za-z0-9:\\/\\/\\.]+)" +
-                                "OS_TENANT_NAME=(?<tenantName>[A-Za-z0-9:\\/\\/\\.]+)" +
-                                "OS_AUTH_URL=(?<authUrl>[A-Za-z0-9:\\/\\/\\.]+)" +
-                                "OS_REGION_NAME=(?<region>[A-Za-z0-9:\\/\\/\\.]+)", "img");
+        let authCreds = XRegExp("OS_USERNAME=(?<username>.*)\n.*" +
+                                "OS_PASSWORD=(?<password>.*)\n.*" +
+                                "OS_TENANT_NAME=(?<tenantName>.*)\n.*" +
+                                "OS_AUTH_URL=(?<authUrl>[https:\\/\\/\\d+.]+):(?<port>\\d+)\\/.*\n.*" +
+                                "OS_REGION_NAME=(?<region>.*)", "img");
 
-        let match = XRegExp.exec(this.rcFileRaw, authCreds);
-        console.log(match);
-        this.authMap = {
-            username: match.username,
-            password: match.password,
-            tenant: match.tenantName,
+        let match = XRegExp.exec(this._rcFileRaw, authCreds);
+        return {
+            auth: {
+                tenantName: match.tenantName,
+                passwordCredentials: {
+                    username: match.username,
+                    password: match.password
+                }
+            },
             url: match.authUrl,
+            port: match.port,
             region: match.region
         };
-        //let cmd = `sudo lxc-attach -n openstack-single-stokachu -- su - ubuntu -c 'curl -s -X POST ${auth.url}/tokens -H "{Content-Type: application/json}" -d \'{"auth": {"tenantName": \'${match.tenant}\', "passwordCredentials": {"username": \'${match.username}\', "password": \'${match.password}}}'`;
-        //console.log(cmd);
-        //res = shell.exec(cmd);
+    }
+
+    query(endpoint, segment){
+        let cmd = `curl -s -H "X-Auth-Token:${this.token.id}" "${endpoint}/${segment}"`;
+        let res = shell.exec(cmd, {silent: true});
+        return Promise.resolve(JSON.parse(res.output));
+    }
+
+    authenticate(){
+        this.auth = this.parseCreds();
+        let encodeAuth = JSON.stringify(this.auth.auth);
+        let curlCmd = `curl -s ${this.auth.url}:${this.auth.port}/v2.0/tokens -X 'POST' -d '{"auth": ${encodeAuth}}' -H "Content-Type: application/json"`;
+        let res = shell.exec(curlCmd, {silent: true});
+        let outputJson = JSON.parse(res.output);
+        this.catalog = outputJson.access.serviceCatalog;
+        this.token = outputJson.access.token;
+    }
+
+    pretty(data){
+        console.log(JSON.stringify(data, null, 2));
+    }
+
+    getEndPoint(name){
+        for (let v of this.catalog) {
+            if (v.name === name) {
+                return Promise.resolve(v.endpoints[0].publicURL);
+            }
+        }
     }
 }

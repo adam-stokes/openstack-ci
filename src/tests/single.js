@@ -1,6 +1,8 @@
 /* global it describe before */
 "use strict";
-import { expect } from "chai";
+import chai, { expect } from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 import shell from "shelljs";
 import _ from "lodash";
 import OpenstackCI from "../";
@@ -18,8 +20,6 @@ describe("Single Installer Test Runner", () =>{
             jsonOut = JSON.parse(res.output);
             // console.log(jsonOut);
         }
-        ci.parseCreds();
-        console.log(ci.auth());
     });
     it("should pass on juju status", () => {
         expect(res.code).to.equal(0);
@@ -37,6 +37,21 @@ describe("Single Installer Test Runner", () =>{
     it("should contain all default started services", () => {
         _.filter(knownServices, svc => {
             expect(jsonOut.services[svc].units[`${svc}/0`]["agent-state"]).to.equal("started");
+        });
+    });
+    it("should return a glance api endpoint", () =>{
+        ci.authenticate();
+        expect(ci.getEndPoint("nova")).to.be.fulfilled;
+    });
+    it("should have glance images", () => {
+        /* EG:
+           curl -s http://10.0.6.83:5000/v2.0/tokens -X 'POST' -d '{"auth": {"passwordCredentials":{"username":"admin","password":"pass"}}}' -H "Content-Type: application/json"
+        */
+        ci.authenticate();
+        ci.getEndPoint("nova").then(url => {
+            return ci.query(url, "images");
+        }).then(result => {
+            expect(result.images).to.not.be.empty;
         });
     });
 });
