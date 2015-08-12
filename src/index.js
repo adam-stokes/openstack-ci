@@ -5,17 +5,16 @@ import fs from "fs";
 import { XRegExp } from "xregexp";
 import expandTilde from "expand-tilde";
 import shell from "shelljs";
-import _ from "lodash";
 import Promise from "bluebird";
+import LDS from "./lds";
 
 export default class OpenstackCI {
     constructor() {
         this.config = {};
-        this.rcFile = expandTilde("~/.cloud-install/openstack-admin-rc");
-        this._rcFileRaw = fs.readFileSync(this.rcFile, "utf-8");
         this.token;
         this.auth;
         this.catalog;
+        this.lds = new LDS();
     }
 
     set rcFileRaw(contents){
@@ -29,7 +28,8 @@ export default class OpenstackCI {
                                 "OS_AUTH_URL=(?<authUrl>[https:\\/\\/\\d+.]+):(?<port>\\d+)\\/.*\n.*" +
                                 "OS_REGION_NAME=(?<region>.*)", "img");
 
-        let match = XRegExp.exec(this._rcFileRaw, authCreds);
+        let contents = this.getCreds();
+        let match = XRegExp.exec(contents, authCreds);
         return {
             auth: {
                 tenantName: match.tenantName,
@@ -42,6 +42,12 @@ export default class OpenstackCI {
             port: match.port,
             region: match.region
         };
+    }
+
+    getCreds(){
+        let rcFile = expandTilde("~/.cloud-install/openstack-admin-rc");
+        let rcFileRaw = fs.readFileSync(rcFile, "utf-8");
+        return rcFileRaw;
     }
 
     query(endpoint, segment){
