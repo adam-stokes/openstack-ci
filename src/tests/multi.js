@@ -7,24 +7,18 @@ import shell from "shelljs";
 import _ from "lodash";
 import OpenstackCI from "../";
 
-describe("Single Installer Test Runner", () =>{
+describe("Multi Installer Test Runner", () =>{
     let ci = new OpenstackCI();
     let res;
     let jsonOut;
     before(() =>{
-        res = shell.exec("sudo lxc-attach -n openstack-single-stokachu -- su - ubuntu -c 'JUJU_HOME=~/.cloud-install/juju juju status --format=json'", {silent: true});
+        res = shell.exec("JUJU_HOME=~/.cloud-install/juju juju status --format=json", {silent: true});
         if(res.code === 0){
             jsonOut = JSON.parse(res.output);
-            // console.log(jsonOut);
         }
     });
     it("should pass on juju status", () => {
         expect(res.code).to.equal(0);
-    });
-    it("should have 4 started machines", () => {
-        for (let i = 0; i < 4; i++){
-            expect(jsonOut.machines[i]["agent-state"]).to.equal("started");
-        }
     });
     it("should contain all default services", () => {
         _.filter(ci.knownServices, svc => {

@@ -14,6 +14,9 @@ export default class OpenstackCI {
         this.token;
         this.auth;
         this.catalog;
+        this.knownServices = ["rabbitmq-server", "glance", "glance-simplestreams-sync", "openstack-dashboard",
+                              "neutron-api", "neutron-gateway", "nova-cloud-controller",
+                              "mysql", "nova-compute", "keystone"];
         this.lds = new LDS();
     }
 

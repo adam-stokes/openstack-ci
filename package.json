@@ -17,14 +17,16 @@
     "test": "mocha",
     "babel-watch": "./node_modules/.bin/babel src --watch --out-dir dist",
     "babel": "./node_modules/.bin/babel src --out-dir dist",
-    "single-test": "npm run babel && ./node_modules/.bin/mocha dist/tests/single.js",
-    "lds-test": "npm run babel && ./node_modules/.bin/mocha dist/tests/landscape.js",
-    "multi-test": "npm run babel && ./node_modules/.bin/mocha dist/tests/multi.js",
+    "single-test": "npm run babel && ./node_modules/.bin/mocha dist/tests/single.js --reporter mochawesome",
+    "lds-test": "npm run babel && ./node_modules/.bin/mocha dist/tests/landscape.js --reporter mochawesome",
+    "multi-test": "npm run babel && ./node_modules/.bin/mocha dist/tests/multi.js --report mochawesome",
     "single-runner": "USE_LXC_IMAGE_CACHE=1 sudo -E openstack-install -c ./profiles/single.yaml --upstream-deb '../openstack_0.99.19-0ubuntu1~14.04.1~bleed1_all.deb'",
+    "multi-runner": "sudo -E openstack-install -c ./profiles/multi.yaml",
     "lds-runner": "sudo -E openstack-install -c ./profiles/lds.yaml",
     "cleanup": "echo 'y'|sudo openstack-install -u",
     "single": "npm run single-runner && npm run single-test && npm run cleanup",
-    "lds": "npm run lds-runner && npm run lds-test && npm run cleanup"
+    "lds": "npm run lds-runner && npm run lds-test && npm run cleanup",
+    "multi": "npm run multi-runner && npm run multi-test && npm run cleanup"
   },
   "files": [
     "dist"
@@ -47,6 +49,7 @@
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
     "mocha": "*",
+    "mochawesome": "^1.2.1",
     "should": "^7.0.3"
   }
 }
