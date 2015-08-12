@@ -24,9 +24,9 @@
     "multi-runner": "sudo -E openstack-install -c ./profiles/multi.yaml",
     "lds-runner": "sudo -E openstack-install -c ./profiles/lds.yaml",
     "cleanup": "echo 'y'|sudo openstack-install -u",
-    "single": "npm run single-runner && npm run single-test && npm run cleanup",
-    "lds": "npm run lds-runner && npm run lds-test && npm run cleanup",
-    "multi": "npm run multi-runner && npm run multi-test && npm run cleanup"
+    "single": "npm run cleanup && npm run single-runner && npm run single-test",
+    "lds": "npm run cleanup && npm run lds-runner && npm run lds-test",
+    "multi": "npm run cleanup && npm run multi-runner && npm run multi-test"
   },
   "files": [
     "dist"
