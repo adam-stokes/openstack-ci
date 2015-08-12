@@ -19,7 +19,8 @@
     "babel": "./node_modules/.bin/babel src --out-dir dist",
     "single-test": "./node_modules/.bin/mocha dist/tests/single.js",
     "lds-test": "./node_modules/.bin/mocha dist/tests/lds.js",
-    "multi-test": "./node_modules/.bin/mocha dist/tests/multi.js"
+    "multi-test": "./node_modules/.bin/mocha dist/tests/multi.js",
+    "single-runner": "USE_LXC_IMAGE_CACHE=1 sudo -E openstack-install -c ./profiles/single.yaml --upstream-deb '../openstack_0.99.19-0ubuntu1~14.04.1~bleed1_all.deb' && npm run single-test"
   },
   "files": [
     "dist"
