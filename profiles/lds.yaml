@@ -1,0 +1,14 @@
+install_type: Landscape OpenStack Autopilot
+landscapecreds:
+  admin_email: foo@bar.com
+  admin_name: foo ey
+  maas_apikey: kuhPNSgdrDRyxCKPsB:Kuu7C3vaWPmYFPQc2f:qRWWeWFLBsnJ8kvTEcUyaqFjuYhAyBBf
+  maas_server: 172.16.0.1
+  system_email: foo@bar.com
+maascreds:
+  api_host: 172.16.0.1
+  api_key: kuhPNSgdrDRyxCKPsB:Kuu7C3vaWPmYFPQc2f:qRWWeWFLBsnJ8kvTEcUyaqFjuYhAyBBf
+openstack_password: pass
+openstack_release: kilo
+ubuntu_series: trusty
+headless: true

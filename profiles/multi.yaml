@@ -1,0 +1,8 @@
+install_type: Multi
+maascreds:
+  api_host: 172.16.0.1
+  api_key: kuhPNSgdrDRyxCKPsB:Kuu7C3vaWPmYFPQc2f:qRWWeWFLBsnJ8kvTEcUyaqFjuYhAyBBf
+openstack_password: pass
+openstack_release: kilo
+ubuntu_series: trusty
+headless: true
