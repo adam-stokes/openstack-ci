@@ -27,17 +27,17 @@ describe("Multi Installer Test Runner", () =>{
         });
     });
     it("should return a glance api endpoint", () =>{
-        expect(ci.getEndPoint("nova")).to.be.fulfilled;
+        expect(ci.getEndPoint("compute")).to.be.fulfilled;
     });
-    it("should have glance images", () => {
+    it("should have glance images", (done) => {
         /* EG:
            curl -s http://10.0.6.83:5000/v2.0/tokens -X 'POST' -d '{"auth": {"passwordCredentials":{"username":"admin","password":"pass"}}}' -H "Content-Type: application/json"
         */
-        ci.getEndPoint("nova").then(url => {
+        ci.getEndPoint("compute").then(url => {
             return ci.query(url, "images");
         }).then(result => {
             expect(result.images).to.not.be.empty;
-        });
+        }).then(done, done);
     });
     it("should return a neutron api endpoint", () =>{
         expect(ci.getEndPoint("network")).to.be.fulfilled;

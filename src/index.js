@@ -2,7 +2,7 @@
 require("babel/polyfill");
 
 import fs from "fs";
-import { XRegExp } from "xregexp";
+import { XRegExp as xre } from "xregexp";
 import expandTilde from "expand-tilde";
 import shell from "shelljs";
 import Promise from "bluebird";
@@ -22,19 +22,15 @@ export default class OpenstackCI {
         this.juju = new Juju();
     }
 
-    set rcFileRaw(contents){
-        this._rcFileRaw = contents;
-    }
-
     parseCreds(){
-        let authCreds = XRegExp("OS_USERNAME=(?<username>.*)\n.*" +
+        let authCreds = xre("OS_USERNAME=(?<username>.*)\n.*" +
                                 "OS_PASSWORD=(?<password>.*)\n.*" +
                                 "OS_TENANT_NAME=(?<tenantName>.*)\n.*" +
                                 "OS_AUTH_URL=(?<authUrl>[https:\\/\\/\\d+.]+):(?<port>\\d+)\\/.*\n.*" +
                                 "OS_REGION_NAME=(?<region>.*)", "img");
 
         let contents = this.getCreds();
-        let match = XRegExp.exec(contents, authCreds);
+        let match = xre.exec(contents, authCreds);
         return {
             auth: {
                 tenantName: match.tenantName,
