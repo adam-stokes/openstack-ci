@@ -1,0 +1,36 @@
+!!python/object/apply:collections.defaultdict
+args: [!!python/name:builtins.dict '']
+dictitems:
+  /MAAS/api/1.0/nodes/node-1a92e8c2-403f-11e5-a195-0811969a58b0/:
+    assignments: {}
+    deployments: {}
+  /MAAS/api/1.0/nodes/node-65636e50-403d-11e5-a195-0811969a58b0/:
+    assignments:
+      LXC: []
+    deployments:
+      LXC: [mysql, rabbitmq-server, keystone, nova-cloud-controller, neutron-api,
+        glance, openstack-dashboard, glance-simplestreams-sync]
+  /MAAS/api/1.0/nodes/node-6c53b25a-403e-11e5-a195-0811969a58b0/:
+    assignments:
+      DEFAULT: []
+    deployments:
+      DEFAULT: [neutron-gateway]
+  /MAAS/api/1.0/nodes/node-953e5f9c-4040-11e5-a848-0811969a58b0/:
+    assignments: {}
+    deployments: {}
+  /MAAS/api/1.0/nodes/node-c47a63f6-403a-11e5-a471-0811969a58b0/:
+    assignments: {}
+    deployments: {}
+  /MAAS/api/1.0/nodes/node-e3d51d3a-403b-11e5-9ebf-0811969a58b0/:
+    assignments:
+      DEFAULT: []
+    deployments:
+      DEFAULT: [nova-compute]
+  _default:
+    assignments: {}
+    deployments: {}
+  _subordinates:
+    assignments:
+      DEFAULT: []
+    deployments:
+      DEFAULT: [ntp, neutron-openvswitch]

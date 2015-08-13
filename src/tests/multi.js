@@ -39,4 +39,7 @@ describe("Multi Installer Test Runner", () =>{
             expect(result.images).to.not.be.empty;
         });
     });
+    it("should return a neutron api endpoint", () =>{
+        expect(ci.getEndPoint("network")).to.be.fulfilled;
+    });
 });
