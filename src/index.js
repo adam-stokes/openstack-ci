@@ -7,6 +7,7 @@ import expandTilde from "expand-tilde";
 import shell from "shelljs";
 import Promise from "bluebird";
 import LDS from "./lds";
+import Juju from "./juju";
 
 export default class OpenstackCI {
     constructor() {
@@ -18,6 +19,7 @@ export default class OpenstackCI {
                               "neutron-api", "neutron-gateway", "nova-cloud-controller",
                               "mysql", "nova-compute", "keystone"];
         this.lds = new LDS();
+        this.juju = new Juju();
     }
 
     set rcFileRaw(contents){
