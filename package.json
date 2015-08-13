@@ -23,7 +23,7 @@
     "single-runner": "USE_LXC_IMAGE_CACHE=1 sudo -E openstack-install -c ./profiles/single.yaml --upstream-deb '../openstack_0.99.19-0ubuntu1~14.04.1~bleed1_all.deb'",
     "multi-runner": "sudo -E openstack-install -c ./profiles/multi.yaml",
     "lds-runner": "sudo -E openstack-install -c ./profiles/lds.yaml",
-    "cleanup": "echo 'y'|sudo openstack-install -u || true",
+    "cleanup": "echo 'y'|sudo openstack-install -u || true && sudo rm -rf ~/.cloud-install || true",
     "single": "npm run cleanup && npm run single-runner && npm run single-test",
     "lds": "npm run cleanup && npm run lds-runner && npm run lds-test",
     "multi": "npm run cleanup && npm run multi-runner && npm run multi-test"

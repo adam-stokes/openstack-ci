@@ -77,7 +77,7 @@ export default class OpenstackCI {
 
     getEndPoint(name){
         for (let v of this.catalog) {
-            if (v.name === name) {
+            if (v.type === name) {
                 return Promise.resolve(v.endpoints[0].publicURL);
             }
         }
