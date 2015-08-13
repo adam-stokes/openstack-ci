@@ -49,7 +49,8 @@ describe("Single Installer Test Runner", () =>{
         ci.getEndPoint("network").then(url => {
             return ci.query(url, "v2.0/networks");
         }).then(result => {
-            expect(_.get(result, "networks[0].name")).to.equal("ubuntu-net");
+            let name = _.result(_.find(result.networks, {"name": "ubuntu-net"}), "name");
+            expect(name).to.equal("ubuntu-net");
         }).then(done, done);
     });
 });

@@ -13,6 +13,6 @@ fi
 ./node_modules/.bin/babel src --out-dir dist
 ./node_modules/.bin/mocha dist/tests/multi.js \
                           --reporter mochawesome \
-                          --reporter-options reportDir="$HOME/reports/multi/$NOW",reportName="multi",reportTitle="Multi Installer Testing"
+                          --reporter-options reportDir="$HOME/reports/multi/$NOW",reportName="index",reportTitle="Multi Installer Testing"
 
 cpLogs "multi" $NOW
