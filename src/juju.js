@@ -4,7 +4,8 @@ import shell from "shelljs";
 export default class Juju{
     constructor(){}
     singleStatus(){
-        let res = shell.exec("sudo lxc-attach -n openstack-single-stokachu -- su - ubuntu -c 'JUJU_HOME=~/.cloud-install/juju juju status --format=json'", {silent: true});
+        let user = process.env.USER;
+        let res = shell.exec(`sudo lxc-attach -n openstack-single-${user} -- su - ubuntu -c 'JUJU_HOME=~/.cloud-install/juju juju status --format=json'`, {silent: true});
         if(res.code > 0){
             throw Error("Problem grabbing single install status output.");
         }

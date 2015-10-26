@@ -24,10 +24,10 @@ export default class OpenstackCI {
 
     parseCreds(){
         let authCreds = xre("OS_USERNAME=(?<username>.*)\n.*" +
-                                "OS_PASSWORD=(?<password>.*)\n.*" +
-                                "OS_TENANT_NAME=(?<tenantName>.*)\n.*" +
-                                "OS_AUTH_URL=(?<authUrl>[https:\\/\\/\\d+.]+):(?<port>\\d+)\\/.*\n.*" +
-                                "OS_REGION_NAME=(?<region>.*)", "img");
+                            "OS_PASSWORD=(?<password>.*)\n.*" +
+                            "OS_TENANT_NAME=(?<tenantName>.*)\n.*" +
+                            "OS_AUTH_URL=(?<authUrl>[https:\\/\\/\\d+.]+):(?<port>\\d+)\\/.*\n.*" +
+                            "OS_REGION_NAME=(?<region>.*)", "img");
 
         let contents = this.getCreds();
         let match = xre.exec(contents, authCreds);

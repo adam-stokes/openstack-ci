@@ -8,7 +8,7 @@ export default class LDS{
         this.juju = new Juju();
     }
     loginPage(){
-        let ip = this.juju.getPublicIP("apache2");
+        let ip = this.juju.getPublicIP("haproxy");
         return shell.exec(`curl -Ls --insecure 'http://${ip}/account/standalone/openstack'`, {silent: true});
     }
 }
